@@ -1,4 +1,5 @@
 <?php
+
 include 'Person.php';
 //  $studen = new Person();
 //     $prenom =new Person();
@@ -7,6 +8,7 @@ include 'Person.php';
 
     echo $student->getname();
     echo $prenom->getname();
+
 
 
 ?>
