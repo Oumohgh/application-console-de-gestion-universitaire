@@ -1,15 +1,19 @@
 <?php
 class DatabaseConnection{
-     protected $type="mysql";
-     protected $host="localhost";
+      
+     private $host="localhost";
      protected $db="";
-     protected $user="root";
-     protected $pass='';
+     private $user="root";
+      private $pass='';
+    private $dsn ="mysql:host=localhost;dbname=application_gestion_universtaires;charset=utf8";
 
-     public function__construct(){
+    public static function connect(){
 
-        try{
-            $pdo= new PDO
-        }
-     }
-}
+            try{
+               $pdo= new PDO(self::$dsn, self::$user, self::$pass);
+               $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            }catch(PDOException $e){
+                echo "". $e->getMessage();
+            }
+    }
+ }
