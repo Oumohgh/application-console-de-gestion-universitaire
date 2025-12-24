@@ -1,13 +1,15 @@
-$host='localhost';
-$dbname='gestion_unversitaies;
-$username='root';
-$pwd='';
+<?php
+class DatabaseConnection{
+     protected $type="mysql";
+     protected $host="localhost";
+     protected $db="";
+     protected $user="root";
+     protected $pass='';
 
-try{
-    $pdo=new PDO("mysql:host=$host;dbname=$dbname",$username,$password);
+     public function__construct(){
 
-    $pdo-> setattribute(PDO::ATRR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-}
-catch(PDO EXCEPTION $e){
-    die('connection fialed'.$e->getMessage());d
+        try{
+            $pdo= new PDO
+        }
+     }
 }
