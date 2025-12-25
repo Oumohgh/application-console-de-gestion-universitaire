@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+require_once "User.php";
 
 class Formateur extends User
 {
@@ -13,20 +13,23 @@ class Formateur extends User
         string $password,
         string $specialty
     ) {
-        parent::__construct(
-            $firstName,
-            $lastName,
-            $email,
-            $password,
-            'FORMATEUR'
-        );
+        parent::__construct($firstName, $lastName, $email, $password, "FORMATEUR");
+        $this->setSpecialty($specialty);
+    }
 
+    // Getter
+    public function getSpecialty(): string { return $this->specialty; }
+
+    // Setter
+    public function setSpecialty(string $specialty): void
+    {
         $this->specialty = $specialty;
     }
-
-    public function getSpecialty(): string
-    {
-        return $this->specialty;
-    }
 }
+
+    // public function toString (): string
+    // {
+    //     return "id ".$this->getId() . "\nom: " . $this->getNom()  . "\nprenom " . $this->getPrenom() . "\nemail " . $this->getEmail()     . "\nSPECIALITE: " . $this-> getSpecialite();
+
+    // }
 

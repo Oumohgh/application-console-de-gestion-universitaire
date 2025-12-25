@@ -1,11 +1,7 @@
 <?php
 
-namespace App\Repository;
 
-use App\Database\DatabaseConnection;
-use App\Entity\Formateur;
-use App\Interface\CrudInterface;
-use PDO;
+
 
 class FormateurRepository implements CrudInterface
 {
@@ -17,110 +13,6 @@ class FormateurRepository implements CrudInterface
     }
 
     
-    public function create(object $entity): bool
-    {
-        if (!$entity instanceof Formateur) {
-            throw new \InvalidArgumentException("Invalid Formateur object");
-        }
-
-        $sql = "INSERT INTO users (first_name, last_name, email, password, role)
-                VALUES (:first_name, :last_name, :email, :password, 'FORMATEUR')";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([
-            'first_name' => $entity->getFirstName(),
-            'last_name'  => $entity->getLastName(),
-            'email'      => $entity->getEmail(),
-            'password'   => $entity->getPassword()
-        ]);
-
-        $userId = $this->pdo->lastInsertId();
-
-        $sql = "INSERT INTO formateurs (user_id, specialty)
-                VALUES (:user_id, :specialty)";
-
-        return $this->pdo->prepare($sql)->execute([
-            'user_id' => $userId,
-            'specialty' => $entity->getSpecialty()
-        ]);
-    }
-
- 
-    public function findById(int $id): ?Formateur
-    {
-        $sql = "SELECT u.*, f.specialty
-                FROM users u
-                JOIN formateurs f ON f.user_id = u.id
-                WHERE u.id = :id";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['id' => $id]);
-
-        $data = $stmt->fetch();
-
-        if (!$data) {
-            return null;
-        }
-
-        return new Formateur(
-            $data['first_name'],
-            $data['last_name'],
-            $data['email'],
-            $data['password'],
-            $data['specialty']
-        );
-    }
-
-    public function findAll(): array
-    {
-        $sql = "SELECT u.*, f.specialty
-                FROM users u
-                JOIN formateurs f ON f.user_id = u.id";
-
-        $stmt = $this->pdo->query($sql);
-        $formateurs = [];
-
-        while ($row = $stmt->fetch()) {
-            $formateurs[] = new Formateur(
-                $row['first_name'],
-                $row['last_name'],
-                $row['email'],
-                $row['password'],
-                $row['specialty']
-            );
-        }
-
-        return $formateurs;
-    }
-
-   
-    public function update(object $entity): bool
-    {
-        if (!$entity instanceof Formateur) {
-            throw new \InvalidArgumentException("Invalid Formateur object");
-        }
-
-        $sql = "UPDATE users SET
-                first_name = :first_name,
-                last_name = :last_name,
-                email = :email
-                WHERE id = :id";
-
-        $this->pdo->prepare($sql)->execute([
-            'first_name' => $entity->getFirstName(),
-            'last_name'  => $entity->getLastName(),
-            'email'      => $entity->getEmail(),
-            'id'         => $entity->getId()
-        ]);
-
-        $sql = "UPDATE formateurs SET specialty = :specialty
-                WHERE user_id = :id";
-
-        return $this->pdo->prepare($sql)->execute([
-            'specialty' => $entity->getSpecialty(),
-            'id' => $entity->getId()
-        ]);
-    }
 
   
     public function delete(int $id): bool
@@ -130,4 +22,3 @@ class FormateurRepository implements CrudInterface
             ->execute(['id' => $id]);
     }
 }
-?>

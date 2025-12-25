@@ -1,13 +1,9 @@
 <?php
 
-namespace App\Repository;
+;
 
-use App\Database\DatabaseConnection;
-use App\Entity\Student;
-use App\Interface\CrudInterface;
-use PDO;
 
-class StudentRepository implements CrudInterface
+class StudentRepository
 {
     private PDO $pdo;
 
@@ -16,12 +12,10 @@ class StudentRepository implements CrudInterface
         $this->pdo = DatabaseConnection::getConnection();
     }
 
-    /* ========= CREATE ========= */
+  
     public function create(object $entity): bool
     {
-        if (!$entity instanceof Student) {
-            throw new \InvalidArgumentException("Invalid Student object");
-        }
+        
 
         $sql = "INSERT INTO users (first_name, last_name, email, password, role)
                 VALUES (:first_name, :last_name, :email, :password, 'STUDENT')";
@@ -95,10 +89,7 @@ class StudentRepository implements CrudInterface
 
     public function update(object $entity): bool
     {
-        if (!$entity instanceof Student) {
-            throw new \InvalidArgumentException("Invalid Student object");
-        }
-
+       
         $sql = "UPDATE users SET
                 first_name = :first_name,
                 last_name = :last_name,
