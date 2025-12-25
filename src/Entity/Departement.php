@@ -52,13 +52,4 @@
  }
 
 
- $depa = new Departement(2,'ghizlane','number');
-echo $depa->getId(); 
-echo "\n";
-$depa->setId(4);
-echo "\n";
-echo $depa->getname(); 
-echo "\n";
-echo $depa->getdescription();
-
  

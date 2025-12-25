@@ -1,3 +1,4 @@
+
 <?php 
 abstract class Person
 {
@@ -22,15 +23,9 @@ abstract class Person
 
 }
 
- class student extends person
-{
-   
-}
 
 
-
-
-
+?>
 
 
 
