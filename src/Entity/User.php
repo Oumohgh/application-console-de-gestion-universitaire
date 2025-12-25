@@ -2,7 +2,7 @@
 
 
 
-require_once "Person.php";
+require "Person.php";
 
 class User extends Person
 {
