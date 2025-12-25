@@ -1,4 +1,5 @@
 <?php
+
 class DatabaseConnection {
     private $host = "localhost";
     private $dbname = "application_gestion_universtaires";
@@ -25,3 +26,4 @@ class DatabaseConnection {
     }
 }
 ?>
+
