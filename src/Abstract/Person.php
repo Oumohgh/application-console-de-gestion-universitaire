@@ -1,32 +1,56 @@
 
-<?php 
+<?php
+
 abstract class Person
 {
-   private $name;
-   private $prenom;
+    protected int $id;
+    protected string $firstName;
+    protected string $lastName;
+    protected string $email;
 
-    public function getname(){
-        return $this->name;
+    public function __construct(string $firstName, string $lastName, string $email)
+    {
+        $this->setFirstName($firstName);
+        $this->setLastName($lastName);
+        $this->setEmail($email);
     }
 
-    public function setname($name){
-        return $this->name =$name;
+  
+    public function getId(): int { 
+        return $this->id; }
+    public function getFirstName(): string { 
+        return $this->firstName; }
+    public function getLastName(): string { 
+        return $this->lastName; }
+    public function getEmail(): string {
+         return $this->email; }
+
+    public function setFirstName(string $firstName): void{
+        if (empty($firstName)) {
+            throw new Exception("First name required");
+        }
+        $this->firstName = $firstName;
     }
 
-     public function getprenom(){
-        return $this->prenom;
+    public function setLastName(string $lastName): void
+    {
+        if (empty($lastName)) {
+            throw new Exception("Last name required");
+        }
+        $this->lastName = $lastName;
     }
 
-    public function setprenom($prenom){
-        return $this->prenom =$prenom;
+    public function setEmail(string $email): void
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Invalid email");
+        }
+        $this->email = $email;
     }
 
+    public function getFullName(): string
+    {
+        return $this->firstName . " " . $this->lastName;
+    }
 }
-
-
-
 ?>
-
-
-
-
