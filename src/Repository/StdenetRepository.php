@@ -3,11 +3,11 @@
 namespace App\Repository;
 
 use App\Database\DatabaseConnection;
-use App\Entity\Formateur;
+use App\Entity\Student;
 use App\Interface\CrudInterface;
 use PDO;
 
-class FormateurRepository implements CrudInterface
+class StudentRepository implements CrudInterface
 {
     private PDO $pdo;
 
@@ -16,15 +16,15 @@ class FormateurRepository implements CrudInterface
         $this->pdo = DatabaseConnection::getConnection();
     }
 
-    
+    /* ========= CREATE ========= */
     public function create(object $entity): bool
     {
-        if (!$entity instanceof Formateur) {
-            throw new \InvalidArgumentException("Invalid Formateur object");
+        if (!$entity instanceof Student) {
+            throw new \InvalidArgumentException("Invalid Student object");
         }
 
         $sql = "INSERT INTO users (first_name, last_name, email, password, role)
-                VALUES (:first_name, :last_name, :email, :password, 'FORMATEUR')";
+                VALUES (:first_name, :last_name, :email, :password, 'STUDENT')";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
@@ -36,21 +36,21 @@ class FormateurRepository implements CrudInterface
 
         $userId = $this->pdo->lastInsertId();
 
-        $sql = "INSERT INTO formateurs (user_id, specialty)
-                VALUES (:user_id, :specialty)";
+        $sql = "INSERT INTO students (user_id, department_id)
+                VALUES (:user_id, :department_id)";
 
         return $this->pdo->prepare($sql)->execute([
             'user_id' => $userId,
-            'specialty' => $entity->getSpecialty()
+            'department_id' => $entity->getDepartmentId()
         ]);
     }
 
- 
-    public function findById(int $id): ?Formateur
+    
+    public function findById(int $id): ?Student
     {
-        $sql = "SELECT u.*, f.specialty
+        $sql = "SELECT u.*, s.department_id
                 FROM users u
-                JOIN formateurs f ON f.user_id = u.id
+                JOIN students s ON s.user_id = u.id
                 WHERE u.id = :id";
 
         $stmt = $this->pdo->prepare($sql);
@@ -62,42 +62,41 @@ class FormateurRepository implements CrudInterface
             return null;
         }
 
-        return new Formateur(
+        return new Student(
             $data['first_name'],
             $data['last_name'],
             $data['email'],
             $data['password'],
-            $data['specialty']
+            $data['department_id']
         );
     }
 
     public function findAll(): array
     {
-        $sql = "SELECT u.*, f.specialty
+        $sql = "SELECT u.*, s.department_id
                 FROM users u
-                JOIN formateurs f ON f.user_id = u.id";
+                JOIN students s ON s.user_id = u.id";
 
         $stmt = $this->pdo->query($sql);
-        $formateurs = [];
+        $students = [];
 
         while ($row = $stmt->fetch()) {
-            $formateurs[] = new Formateur(
+            $students[] = new Student(
                 $row['first_name'],
                 $row['last_name'],
                 $row['email'],
                 $row['password'],
-                $row['specialty']
+                $row['department_id']
             );
         }
 
-        return $formateurs;
+        return $students;
     }
 
-   
     public function update(object $entity): bool
     {
-        if (!$entity instanceof Formateur) {
-            throw new \InvalidArgumentException("Invalid Formateur object");
+        if (!$entity instanceof Student) {
+            throw new \InvalidArgumentException("Invalid Student object");
         }
 
         $sql = "UPDATE users SET
@@ -106,28 +105,27 @@ class FormateurRepository implements CrudInterface
                 email = :email
                 WHERE id = :id";
 
-        $this->pdo->prepare($sql)->execute([
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
             'first_name' => $entity->getFirstName(),
             'last_name'  => $entity->getLastName(),
             'email'      => $entity->getEmail(),
             'id'         => $entity->getId()
         ]);
 
-        $sql = "UPDATE formateurs SET specialty = :specialty
+        $sql = "UPDATE students SET department_id = :department_id
                 WHERE user_id = :id";
 
         return $this->pdo->prepare($sql)->execute([
-            'specialty' => $entity->getSpecialty(),
+            'department_id' => $entity->getDepartmentId(),
             'id' => $entity->getId()
         ]);
     }
 
-  
+   
     public function delete(int $id): bool
     {
-        return $this->pdo
-            ->prepare("DELETE FROM users WHERE id = :id")
-            ->execute(['id' => $id]);
+        $sql = "DELETE FROM users WHERE id = :id";
+        return $this->pdo->prepare($sql)->execute(['id' => $id]);
     }
 }
-?>

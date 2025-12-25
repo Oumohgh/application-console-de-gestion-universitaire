@@ -2,31 +2,30 @@
 
 namespace App\Entity;
 
-class Formateur extends User
+class Student extends User
 {
-    private string $specialty;
+    private int $departmentId;
 
     public function __construct(
         string $firstName,
         string $lastName,
         string $email,
         string $password,
-        string $specialty
+        int $departmentId
     ) {
         parent::__construct(
             $firstName,
             $lastName,
             $email,
             $password,
-            'FORMATEUR'
+            'STUDENT'
         );
 
-        $this->specialty = $specialty;
+        $this->departmentId = $departmentId;
     }
 
-    public function getSpecialty(): string
+    public function getDepartmentId(): int
     {
-        return $this->specialty;
+        return $this->departmentId;
     }
 }
-

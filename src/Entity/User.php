@@ -1,37 +1,34 @@
 <?php
-    class User{
-        protected $email;
-        protected $password;
-        protected $role;
 
-        function __construct($email, $password, $role){
-            $this->email = $email;
-            $this->password = $password;
-            $this->role = $role;
-        }
+namespace App\Entity;
 
-        function getEmail(){
-            return $this->email;
-        }
+use App\Abstract\Person;
 
-        function getPassword(){
-            return $this->password;
-        }
+class User extends Person
+{
+    protected string $password;
+    protected string $role;
 
-        function getRole(){
-            return $this->role;
-        }
+    public function __construct(
+        string $firstName,
+        string $lastName,
+        string $email,
+        string $password,
+        string $role
+    ) {
+        parent::__construct($firstName, $lastName, $email);
 
-        function setEmail($email){
-            $this->email = $email;
-        }
-
-        function setPassword($password){
-            $this->password = $password;
-        }
-
-        function setRole($role){
-            $this->role = $role;
-        }
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
+        $this->role = $role;
     }
-?>
+
+    public function verifyPassword(string $password): bool
+    {
+        return password_verify($password, $this->password);
+    }
+
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+}
