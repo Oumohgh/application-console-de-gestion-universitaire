@@ -1,19 +1,27 @@
 <?php
-class DatabaseConnection{
-      
-     private $host="localhost";
-     protected $db="";
-     private $user="root";
-      private $pass='';
-    private $dsn ="mysql:host=localhost;dbname=application_gestion_universtaires;charset=utf8";
+class DatabaseConnection {
+    private $host = "localhost";
+    private $dbname = "application_gestion_universtaires";
+    private $user = "root";
+    private $password = "";
+    private $conn;
 
-    public static function connect(){
+    public function __construct() {
+        try {
+            $this->conn = new PDO(
+                "mysql:host={$this->host};dbname={$this->dbname};charset=utf8",
+                $this->user,
+                $this->password
+            );
 
-            try{
-               $pdo= new PDO(self::$dsn, self::$user, self::$pass);
-               $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            }catch(PDOException $e){
-                echo "". $e->getMessage();
-            }
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Erreur de connexion : " . $e->getMessage());
+        }
     }
- }
+
+    public function getConnection() {
+        return $this->conn;
+    }
+}
+?>
