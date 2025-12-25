@@ -1,11 +1,7 @@
 <?php
 
-namespace App\Repository;
 
-use App\Database\DatabaseConnection;
-use App\Entity\Formateur;
-use App\Interface\CrudInterface;
-use PDO;
+
 
 class FormateurRepository implements CrudInterface
 {
@@ -26,4 +22,3 @@ class FormateurRepository implements CrudInterface
             ->execute(['id' => $id]);
     }
 }
-?>

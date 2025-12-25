@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Abstract;
+
 
 abstract class Person
 {
     protected int $id;
     protected string $firstName;
     protected string $lastName;
-    protected string $email;
+
 
     public function __construct(
         string $firstName,
