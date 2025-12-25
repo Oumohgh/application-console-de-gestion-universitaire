@@ -1,50 +1,55 @@
 <?php
 
-
-
 abstract class Person
 {
     protected int $id;
     protected string $firstName;
     protected string $lastName;
+    protected string $email;
 
-
-    public function __construct(
-        string $firstName,
-        string $lastName,
-        string $email
-    ) {
+    public function __construct(string $firstName, string $lastName, string $email)
+    {
         $this->setFirstName($firstName);
         $this->setLastName($lastName);
         $this->setEmail($email);
     }
 
-    public function getFullName(): string
-    {
-        return $this->firstName . ' ' . $this->lastName;
-    }
+  
+    public function getId(): int { 
+        return $this->id; }
+    public function getFirstName(): string { 
+        return $this->firstName; }
+    public function getLastName(): string { 
+        return $this->lastName; }
+    public function getEmail(): string {
+         return $this->email; }
 
-    protected function setFirstName(string $firstName): void
-    {
+    public function setFirstName(string $firstName): void{
         if (empty($firstName)) {
-            throw new \InvalidArgumentException("First name is required");
+            throw new Exception("First name required");
         }
         $this->firstName = $firstName;
     }
 
-    protected function setLastName(string $lastName): void
+    public function setLastName(string $lastName): void
     {
         if (empty($lastName)) {
-            throw new \InvalidArgumentException("Last name is required");
+            throw new Exception("Last name required");
         }
         $this->lastName = $lastName;
     }
 
-    protected function setEmail(string $email): void
+    public function setEmail(string $email): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException("Invalid email");
+            throw new Exception("Invalid email");
         }
         $this->email = $email;
     }
+
+    public function getFullName(): string
+    {
+        return $this->firstName . " " . $this->lastName;
+    }
 }
+?>
