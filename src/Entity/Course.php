@@ -1,10 +1,10 @@
 <?php 
 class Course 
 {
-    public $id;
-    public $titre;
-    public $volumeHoraire;
-    public $departmentId;
+    private $id;
+    private $titre;
+    private $volumeHoraire;
+    private $departmentId;
 
     public function __construct($id,$titre,$volumeHoraire,$departmentId)
     {
