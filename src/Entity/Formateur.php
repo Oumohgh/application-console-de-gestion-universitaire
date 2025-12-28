@@ -18,7 +18,8 @@ class Formateur extends User
     }
 
     // Getter
-    public function getSpecialty(): string { return $this->specialty; }
+    public function getSpecialty(): string
+    {return $this->specialty;}
 
     // Setter
     public function setSpecialty(string $specialty): void
@@ -27,9 +28,8 @@ class Formateur extends User
     }
 }
 
-    // public function toString (): string
-    // {
-    //     return "id ".$this->getId() . "\nom: " . $this->getNom()  . "\nprenom " . $this->getPrenom() . "\nemail " . $this->getEmail()     . "\nSPECIALITE: " . $this-> getSpecialite();
+// public function toString (): string
+// {
+//     return "id ".$this->getId() . "\nom: " . $this->getNom()  . "\nprenom " . $this->getPrenom() . "\nemail " . $this->getEmail()     . "\nSPECIALITE: " . $this-> getSpecialite();
 
-    // }
-
+// }

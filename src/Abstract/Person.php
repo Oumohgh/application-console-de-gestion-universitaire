@@ -15,7 +15,7 @@ abstract class Person
     }
 
   
-    public function getId(): int { 
+   public function getId(): int { 
         return $this->id; }
     public function getFirstName(): string { 
         return $this->firstName; }

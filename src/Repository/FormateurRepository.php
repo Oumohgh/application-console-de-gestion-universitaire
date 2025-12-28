@@ -1,15 +1,15 @@
 <?php
 
 
+include'src\Database\DatabaseConnection.php';
 
+class FormateurRepository {
 
-class FormateurRepository implements CrudInterface
-{
-    private PDO $pdo;
+    private $conn;
 
     public function __construct()
     {
-        $this->pdo = DatabaseConnection::getConnection();
+        $this->conn =new DatabaseConnection()->connect();
     }
 
     
@@ -21,4 +21,5 @@ class FormateurRepository implements CrudInterface
             ->prepare("DELETE FROM users WHERE id = :id")
             ->execute(['id' => $id]);
     }
+}
 }
