@@ -1,25 +1,19 @@
 <?php
 
-
-include'src\Database\DatabaseConnection.php';
-
-class FormateurRepository {
-
-    private $conn;
-
-    public function __construct()
-    {
-        $this->conn =new DatabaseConnection()->connect();
-    }
-
+class FormateurRepository extends CrudGeneric
+{
+    protected string $tableName = 'formateurs';
     
-
-  
-    public function delete(int $id): bool
-    {
-        return $this->pdo
-            ->prepare("DELETE FROM users WHERE id = :id")
-            ->execute(['id' => $id]);
+      public function getformateur(){
+        $sql = "SELECT  users.id,
+            users.firtname,
+            users.lastname,
+            users.email,
+            users.age,
+            users.role,
+            formateurs.speciality FROM users JOIN formateurs ON formateurs.user_id = users.id";
+        $stmt = $this->conn->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return  $result  ;
     }
-}
 }
