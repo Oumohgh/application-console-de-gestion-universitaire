@@ -1,33 +1,19 @@
 <?php
 
-require_once "User.php";
 
-class Formateur extends User
+
+require_once '/../Abstract/Person.php';
+class Formateur extends Person
 {
-    private string $specialty;
+  protected string $tableName = 'formateurs';
+  protected string $specialise;
 
-    public function __construct(
-        string $firstName,
-        string $lastName,
-        string $email,
-        string $password,
-        string $specialty
-    ) {
-        parent::__construct($firstName, $lastName, $email, $password, "FORMATEUR");
-        $this->setSpecialty($specialty);
-    }
-
-    // Getter
-    public function getSpecialty(): string
-    {return $this->specialty;}
-
-    // Setter
-    public function setSpecialty(string $specialty): void
-    {
-        $this->specialty = $specialty;
-    }
+  public function __construct(string $firstName,string $lastName,INT $Age,string $specialise)
+  {
+     parent::__construct($firstName, $lastName, $Age);
+     $this->specialise = $specialise;
+  }
 }
-
 // public function toString (): string
 // {
 //     return "id ".$this->getId() . "\nom: " . $this->getNom()  . "\nprenom " . $this->getPrenom() . "\nemail " . $this->getEmail()     . "\nSPECIALITE: " . $this-> getSpecialite();

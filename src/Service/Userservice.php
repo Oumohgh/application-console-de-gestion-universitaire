@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../Repository/UserRepository.php';
+require_once '/../Repository/UserRepository.php';
 
 
 class UserService 

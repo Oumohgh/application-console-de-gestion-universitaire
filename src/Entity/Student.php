@@ -1,34 +1,34 @@
 <?php
 
-require_once "User.php";
+require_once 'User.php';
 
-class Student extends User
-{
-    private int $departmentId;
+ 
+class Student extends User{
 
-    public function __construct(
-        string $firstName,
-        string $lastName,
-        string $email,
-        string $password,
-        int $departmentId
-    ) {
-        parent::__construct($firstName, $lastName, $email, $password, "STUDENT");
-        $this->setDepartmentId($departmentId);
-    }
+  protected string $tableName = 'students';
+  protected string $nameclass;
+  
+   public function __construct(string $firstName,string $lastName,INT $Age ,string $nameclass)
+  {
+     parent::__construct($firstName, $lastName, $Age);
+     $this->$nameclass = $nameclass ;
+  }
+  public function gettableName(){
+    return $this->tableName;
+  }
 
+  public function getNameclass()
+  {
+    return $this->nameclass;
+  }
 
-    public function getDepartmentId(): int { return $this->departmentId; }
+  public function setNameclass($nameclass)
+  {
+    $this->nameclass = $nameclass;
 
-
-    public function setDepartmentId(int $departmentId): void
-    {
-        $this->departmentId = $departmentId;
-    }
+    return $this;
+  }
 }
-
-
-
 
 //     public function toString (): string
 //     {
