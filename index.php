@@ -16,7 +16,7 @@ use App\Service\UserService;
 // Initialize services
 $userRepository = new UserRepository();
 $authService = new AuthService($userRepository);
-$userService = new UserService($userRepository, $authService);
+// $userService = new UserService($userRepository, $authService);
 $studentRepository = new StudentRepository();
 $studentService = new StudentService($studentRepository, $authService);
 $formateurRepository = new FormateurRepository();
@@ -491,7 +491,7 @@ function viewStudents($studentService)
     foreach ($students as $student) {
         displayStudent($student);
     }
-    readInput("\nAppuyez sur Entrée pour continuer...");
+    readInput("\nAppuyez sur Entree pour continuer...");
 }
 
 function viewFormateurs($formateurService)
