@@ -1,7 +1,7 @@
 <?php
 
 
-require"User.php";
+require "User.php";
 
 
 class Student extends User
