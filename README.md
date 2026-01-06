@@ -1,5 +1,2 @@
-Comprendre la logique métier:(ghizlane)
-
-Nous avons une université qui comprend plusieurs départements, ou bien chaque département propose un cours spécifique ou particulier qui diffère de celui des autres départements.
-
+ planification :lien de jira (https://oughlanemohammed72.atlassian.net/jira/software/projects/ACDGU/boards/67)
  

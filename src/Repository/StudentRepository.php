@@ -3,13 +3,13 @@
 namespace App\Repository;
 
 use App\Database\DatabaseConnection;
-use App\Entity\Formateur;
+use App\Entity\Student;
 use PDO;
 
-class FormateurRepository
+class StudentRepository
 {
     private PDO $pdo;
-    private string $tableName = 'formateurs';
+    private string $tableName = 'students';
 
     public function __construct()
     {
@@ -18,19 +18,19 @@ class FormateurRepository
 
     public function create(object $entity): bool
     {
-        if (!$entity instanceof Formateur) {
+        if (!$entity instanceof Student) {
             return false;
         }
 
-        $sql = "INSERT INTO {$this->tableName} (firstname, lastname, email, age, speciality) 
-                VALUES (:firstname, :lastname, :email, :age, :speciality)";
+        $sql = "INSERT INTO {$this->tableName} (firstname, lastname, email, age, nameclass) 
+                VALUES (:firstname, :lastname, :email, :age, :nameclass)";
         
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':firstname', $entity->getFirstName(), PDO::PARAM_STR);
         $stmt->bindValue(':lastname', $entity->getLastName(), PDO::PARAM_STR);
         $stmt->bindValue(':email', $entity->getEmail(), PDO::PARAM_STR);
         $stmt->bindValue(':age', $entity->getAge(), PDO::PARAM_INT);
-        $stmt->bindValue(':speciality', $entity->getSpeciality(), PDO::PARAM_STR);
+        $stmt->bindValue(':nameclass', $entity->getClassName(), PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             $entity->setId((int)$this->pdo->lastInsertId());
@@ -41,7 +41,7 @@ class FormateurRepository
 
     public function findById(int $id)
     {
-        $sql = "SELECT id, firstname, lastname, email, age, speciality 
+        $sql = "SELECT id, firstname, lastname, email, age, nameclass 
                 FROM {$this->tableName} WHERE id = :id";
         
         $stmt = $this->pdo->prepare($sql);
@@ -58,7 +58,7 @@ class FormateurRepository
 
     public function findByEmail(string $email)
     {
-        $sql = "SELECT id, firstname, lastname, email, age, speciality 
+        $sql = "SELECT id, firstname, lastname, email, age, nameclass 
                 FROM {$this->tableName} WHERE email = :email";
         
         $stmt = $this->pdo->prepare($sql);
@@ -75,23 +75,23 @@ class FormateurRepository
 
     public function findAll()
     {
-        $sql = "SELECT id, firstname, lastname, email, age, speciality 
+        $sql = "SELECT id, firstname, lastname, email, age, nameclass 
                 FROM {$this->tableName} ORDER BY id";
         
         $stmt = $this->pdo->query($sql);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $formateurs = [];
+        $students = [];
         foreach ($results as $data) {
-            $formateurs[] = $this->creerDepuisDonnees($data);
+            $students[] = $this->creerDepuisDonnees($data);
         }
 
-        return $formateurs;
+        return $students;
     }
 
     public function update(object $entity): bool
     {
-        if (!$entity instanceof Formateur) {
+        if (!$entity instanceof Student) {
             return false;
         }
 
@@ -101,7 +101,7 @@ class FormateurRepository
 
         $sql = "UPDATE {$this->tableName} 
                 SET firstname = :firstname, lastname = :lastname, email = :email, 
-                    age = :age, speciality = :speciality 
+                    age = :age, nameclass = :nameclass 
                 WHERE id = :id";
         
         $stmt = $this->pdo->prepare($sql);
@@ -110,7 +110,7 @@ class FormateurRepository
         $stmt->bindValue(':lastname', $entity->getLastName(), PDO::PARAM_STR);
         $stmt->bindValue(':email', $entity->getEmail(), PDO::PARAM_STR);
         $stmt->bindValue(':age', $entity->getAge(), PDO::PARAM_INT);
-        $stmt->bindValue(':speciality', $entity->getSpeciality(), PDO::PARAM_STR);
+        $stmt->bindValue(':nameclass', $entity->getClassName(), PDO::PARAM_STR);
 
         return $stmt->execute();
     }
@@ -127,14 +127,15 @@ class FormateurRepository
 
     private function creerDepuisDonnees($data)
     {
-        $formateur = new Formateur(
+        $student = new Student(
             $data['firstname'],
             $data['lastname'],
             $data['email'],
             (int)$data['age'],
-            $data['speciality']
+            $data['nameclass']
         );
-        $formateur->setId((int)$data['id']);
-        return $formateur;
+        $student->setId((int)$data['id']);
+        return $student;
     }
 }
+
